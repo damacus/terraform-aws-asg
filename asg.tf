@@ -2,16 +2,15 @@ resource "aws_launch_configuration" "launch_config" {
   image_id                    = "${var.ami}"
   instance_type               = "${var.instance_type}"
   associate_public_ip_address = false
-  user_data                   = "${template_file.user_data.rendered}"
+  user_data                   = "${var.user_data_script}"
+
   # user_data            = "#!/bin/bash\necho ECS_CLUSTER=${aws_ecs_cluster.default.name} > /etc/ecs/ecs.config"
 
   security_groups      = ["${concat(aws_security_group.security_group.id, var.security_groups)}"]
   iam_instance_profile = "${var.instance_profile}"
-
   lifecycle {
     create_before_destroy = true
   }
-
   depends_on = ["template_file.user_data"]
 }
 
@@ -25,7 +24,9 @@ resource "aws_autoscaling_group" "asg" {
   health_check_type         = "ELB"
   force_delete              = true
   launch_configuration      = "${aws_launch_configuration.launch_config.name}"
-  load_balancers            = ["${aws_elb.windows_elb.name}"]
+  load_balancers            = ["${var.load_balancers}"]
+
+  enabled_metrics = ["${var.asg_enabled_metrics}"]
 
   lifecycle {
     create_before_destroy = true
