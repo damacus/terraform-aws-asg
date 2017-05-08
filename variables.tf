@@ -23,7 +23,9 @@ variable "instance_type" {
 # ASG
 variable "user_data_script" {}
 variable "load_balancers" {}
-variable "zones" {}
+variable "zones" {
+  type = "list"
+}
 variable "asg_min_size" {}
 variable "asg_max_size" {}
 variable "enabled_metrics" {
