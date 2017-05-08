@@ -14,7 +14,7 @@ resource "aws_launch_configuration" "launch_config" {
   # depends_on = ["template_file.user_data"]
 }
 
-resource "aws_autoscaling_group" "autoscalling_group" {
+resource "aws_autoscaling_group" "autoscaling_group" {
   availability_zones        = ["${var.zones}"]
   name                      = "${var.name} - ${aws_launch_configuration.launch_config.name}"
   max_size                  = "${var.asg_max_size}"
@@ -26,7 +26,7 @@ resource "aws_autoscaling_group" "autoscalling_group" {
   launch_configuration      = "${aws_launch_configuration.launch_config.name}"
   load_balancers            = ["${var.load_balancers}"]
 
-  enabled_metrics = ["${var.asg_enabled_metrics}"]
+  enabled_metrics = ["${var.enabled_metrics}"]
 
   lifecycle {
     create_before_destroy = true

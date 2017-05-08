@@ -47,8 +47,8 @@ variable "asg_min_size_down" {}
 variable "asg_max_size_down" {}
 variable "asg_desired_capacity_down" {}
 
-asg_desired_capacity
-load_balancers
+variable "asg_desired_capacity" {}
+variable "load_balancers" {}
 
 variable "schedule_recurrence_down" {
   default = "* 20 * * 1-5"
