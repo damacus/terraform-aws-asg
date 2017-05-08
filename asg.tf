@@ -13,7 +13,7 @@ resource "aws_launch_configuration" "launch_config" {
 
 resource "aws_autoscaling_group" "autoscaling_group" {
   availability_zones        = ["${var.zones}"]
-  name                      = "${var.name} - ${aws_launch_configuration.launch_config.name}"
+  name_prefix               = "${var.name} - "
   max_size                  = "${var.asg_max_size}"
   min_size                  = "${var.asg_min_size}"
   desired_capacity          = "${var.asg_desired_capacity}"
