@@ -5,7 +5,7 @@ resource "aws_launch_configuration" "launch_config" {
   user_data                   = "${var.user_data_script}"
   security_groups             = ["${concat(split(",", aws_security_group.security_group.id),var.security_groups)}"]
   iam_instance_profile        = "${var.instance_profile}"
-  key_name                    = "${key_name}"
+  key_name                    = "${var.key_name}"
 
   lifecycle {
     create_before_destroy = true
