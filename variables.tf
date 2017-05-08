@@ -63,3 +63,4 @@ variable "email" {
   default = ""
 }
 variable "cost_code" {}
+variable "key_name" {}
