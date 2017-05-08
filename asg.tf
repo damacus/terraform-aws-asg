@@ -24,6 +24,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   load_balancers            = ["${var.load_balancers}"]
   termination_policies      = "${var.termination_policies}"
   enabled_metrics           = ["${var.enabled_metrics}"]
+  vpc_zone_identifier       = "${var.subnets}"
 
   lifecycle {
     create_before_destroy = true

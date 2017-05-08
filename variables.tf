@@ -26,6 +26,9 @@ variable "load_balancers" {}
 variable "zones" {
   type = "list"
 }
+variable "subnets" {
+  type = "list"
+}
 variable "asg_min_size" {}
 variable "asg_max_size" {}
 variable "enabled_metrics" {
