@@ -3,8 +3,6 @@ resource "aws_security_group" "security_group" {
   description = "${var.environment}-${var.application}-${var.name}"
   vpc_id      = "${var.vpc_id}"
 
-  asg_termination_policies = "${var.asg_termination_policies}"
-
   tags {
     Name        = "${var.environment}-${var.application}-${var.name}"
     Environment = "${var.environment}"

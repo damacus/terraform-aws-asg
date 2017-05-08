@@ -3,15 +3,13 @@ resource "aws_launch_configuration" "launch_config" {
   instance_type               = "${var.instance_type}"
   associate_public_ip_address = false
   user_data                   = "${var.user_data_script}"
+  asg_termination_policies    = "${var.termination_policies}"
+  security_groups             = ["${concat(aws_security_group.security_group.id, var.security_groups)}"]
+  iam_instance_profile        = "${var.instance_profile}"
 
-  # user_data            = "#!/bin/bash\necho ECS_CLUSTER=${aws_ecs_cluster.default.name} > /etc/ecs/ecs.config"
-
-  security_groups      = ["${concat(aws_security_group.security_group.id, var.security_groups)}"]
-  iam_instance_profile = "${var.instance_profile}"
   lifecycle {
     create_before_destroy = true
   }
-  # depends_on = ["template_file.user_data"]
 }
 
 resource "aws_autoscaling_group" "autoscaling_group" {

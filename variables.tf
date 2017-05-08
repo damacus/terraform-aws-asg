@@ -30,7 +30,7 @@ variable "enabled_metrics" {
   type    = "list"
   default = ["GroupTerminatingInstances", "GroupMaxSize", "GroupDesiredCapacity", "GroupPendingInstances", "GroupInServiceInstances", "GroupMinSize", "GroupTotalInstances"]
 }
-variable "asg_termination_policies" {
+variable "termination_policies" {
   type        = "list"
   default     = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour"]
   description = "A list of policies to decide how the instances in the auto scale group should be terminated"
