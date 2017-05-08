@@ -22,7 +22,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   force_delete              = true
   launch_configuration      = "${aws_launch_configuration.launch_config.name}"
   load_balancers            = ["${var.load_balancers}"]
-  asg_termination_policies  = "${var.termination_policies}"
+  termination_policies      = "${var.termination_policies}"
   enabled_metrics           = ["${var.enabled_metrics}"]
 
   lifecycle {
