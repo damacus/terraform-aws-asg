@@ -3,7 +3,6 @@ resource "aws_launch_configuration" "launch_config" {
   instance_type               = "${var.instance_type}"
   associate_public_ip_address = false
   user_data                   = "${var.user_data_script}"
-  asg_termination_policies    = "${var.termination_policies}"
   security_groups             = ["${concat(aws_security_group.security_group.id, var.security_groups)}"]
   iam_instance_profile        = "${var.instance_profile}"
 
@@ -23,8 +22,8 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   force_delete              = true
   launch_configuration      = "${aws_launch_configuration.launch_config.name}"
   load_balancers            = ["${var.load_balancers}"]
-
-  enabled_metrics = ["${var.enabled_metrics}"]
+  asg_termination_policies  = "${var.termination_policies}"
+  enabled_metrics           = ["${var.enabled_metrics}"]
 
   lifecycle {
     create_before_destroy = true
