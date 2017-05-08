@@ -11,10 +11,10 @@ resource "aws_launch_configuration" "launch_config" {
   lifecycle {
     create_before_destroy = true
   }
-  depends_on = ["template_file.user_data"]
+  # depends_on = ["template_file.user_data"]
 }
 
-resource "aws_autoscaling_group" "asg" {
+resource "aws_autoscaling_group" "autoscalling_group" {
   availability_zones        = ["${var.zones}"]
   name                      = "${var.name} - ${aws_launch_configuration.launch_config.name}"
   max_size                  = "${var.asg_max_size}"
