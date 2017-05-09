@@ -64,3 +64,6 @@ variable "email" {
 }
 variable "cost_code" {}
 variable "key_name" {}
+varaible "health_check_type" {
+  default = "EC2"
+}
