@@ -22,7 +22,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   health_check_type         = "${var.health_check_type}"
   force_delete              = true
   launch_configuration      = "${aws_launch_configuration.launch_config.name}"
-  load_balancers            = ["${var.load_balancers}"]
+  # load_balancers            = ["${var.load_balancers}"]
   termination_policies      = "${var.termination_policies}"
   enabled_metrics           = ["${var.enabled_metrics}"]
   vpc_zone_identifier       = ["${var.subnets}"]
