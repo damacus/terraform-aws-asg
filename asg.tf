@@ -18,7 +18,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   max_size                  = "${var.asg_max_size}"
   min_size                  = "${var.asg_min_size}"
   desired_capacity          = "${var.asg_desired_capacity}"
-  health_check_grace_period = 300
+  health_check_grace_period = "${var.health_check_grace_period}"
   health_check_type         = "${var.health_check_type}"
   force_delete              = true
   launch_configuration      = "${aws_launch_configuration.launch_config.name}"
