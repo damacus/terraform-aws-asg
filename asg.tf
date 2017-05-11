@@ -1,7 +1,7 @@
 resource "aws_launch_configuration" "launch_config" {
   image_id                    = "${var.ami}"
   instance_type               = "${var.instance_type}"
-  associate_public_ip_address = false
+  associate_public_ip_address = "${var.map_public_ip}"
   user_data                   = "${var.user_data_script}"
   security_groups             = ["${concat(split(",", aws_security_group.security_group.id),var.security_groups)}"]
   iam_instance_profile        = "${var.instance_profile}"
