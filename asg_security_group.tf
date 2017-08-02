@@ -1,11 +1,11 @@
 resource "aws_security_group" "security_group" {
-  name        = "${var.environment}-${var.application}-${var.name}"
-  description = "${var.environment}-${var.application}-${var.name}"
+  name        = "${terraform.env}-${var.application}-${var.name}"
+  description = "${terraform.env}-${var.application}-${var.name}"
   vpc_id      = "${var.vpc_id}"
 
   tags {
-    Name        = "${var.environment}-${var.application}-${var.name}"
-    Environment = "${var.environment}"
+    Name        = "${terraform.env}-${var.application}-${var.name}"
+    Environment = "${terraform.env}"
     Application = "${var.application}"
   }
 }

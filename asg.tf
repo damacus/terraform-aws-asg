@@ -22,11 +22,9 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   health_check_type         = "${var.health_check_type}"
   force_delete              = true
   launch_configuration      = "${aws_launch_configuration.launch_config.name}"
-
-  # load_balancers            = ["${var.load_balancers}"]
-  termination_policies = "${var.termination_policies}"
-  enabled_metrics      = ["${var.enabled_metrics}"]
-  vpc_zone_identifier  = ["${var.subnets}"]
+  termination_policies      = "${var.termination_policies}"
+  enabled_metrics           = ["${var.enabled_metrics}"]
+  vpc_zone_identifier       = ["${var.subnets}"]
 
   lifecycle {
     create_before_destroy = true
@@ -40,7 +38,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
 
   tag {
     key                 = "Name"
-    value               = "${var.environment}_${var.name}_${count.index}"
+    value               = "${terraform.env}_${var.name}_${count.index}"
     propagate_at_launch = true
   }
 
@@ -64,7 +62,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
 
   tag {
     key                 = "environment"
-    value               = "${var.environment}"
+    value               = "${terraform.env}"
     propagate_at_launch = true
   }
 }
