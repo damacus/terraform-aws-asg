@@ -1,13 +1,6 @@
 resource "aws_security_group" "security_group" {
-  name        = "${terraform.env}-${var.application}-${var.name}"
-  description = "${terraform.env}-${var.application}-${var.name}"
-  vpc_id      = "${var.vpc_id}"
-
-  tags {
-    Name        = "${terraform.env}-${var.application}-${var.name}"
-    Environment = "${terraform.env}"
-    Application = "${var.application}"
-  }
+  vpc_id = "${var.vpc_id}"
+  tags   = "${merge(local.tags,map("Name", "${terraform.workspace}-${var.name}"))}"
 }
 
 resource "aws_security_group_rule" "self_ingress" {
