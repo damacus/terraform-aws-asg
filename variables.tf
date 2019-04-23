@@ -18,7 +18,9 @@ variable "instance_type" {
 # ASG
 variable "user_data_script" {}
 
-variable "load_balancers" {}
+variable "load_balancers" {
+  default = ""
+}
 
 variable "subnets" {
   type = "list"

@@ -14,7 +14,6 @@ An opinionated Terraform Module for creating ECS AutoScaling Groups
 | name                         |                                                                                             | string |       n/a        |   yes    |
 | subnets                      |                                                                                             |  list  |       n/a        |   yes    |
 | user\_data\_script           | ASG                                                                                         | string |       n/a        |   yes    |
-| load\_balancers              |                                                                                             | string |       n/a        |   yes    |
 | vpc\_id                      |                                                                                             | string |       n/a        |   yes    |
 | asg\_desired\_capacity       |                                                                                             | string |       n/a        |   yes    |
 | asg\_desired\_capacity\_down |                                                                                             | string |       n/a        |   yes    |
@@ -25,6 +24,7 @@ An opinionated Terraform Module for creating ECS AutoScaling Groups
 | asg\_min\_size               | # AutoScalling                                                                              | string |       n/a        |   yes    |
 | asg\_min\_size\_down         |                                                                                             | string |       n/a        |   yes    |
 | asg\_min\_size\_up           |                                                                                             | string |       n/a        |   yes    |
+| load\_balancers              |                                                                                             | string |       n/a        |    no    |
 | enabled\_metrics             |                                                                                             |  list  |     `<list>`     |    no    |
 | health\_check\_grace\_period |                                                                                             | string |     `"300"`      |    no    |
 | health\_check\_type          |                                                                                             | string |     `"EC2"`      |    no    |
