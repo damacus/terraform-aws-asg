@@ -11,7 +11,7 @@ data "aws_ami" "ecs-optimized" {
 resource "aws_launch_configuration" "launch_config" {
   image_id                    = "${data.aws_ami.ecs-optimized.id}"
   instance_type               = "${var.instance_type}"
-  associate_public_ip_address = "${var.map_public_ip}"
+  associate_public_ip_address = "${var.associate_public_ip_address}"
   user_data                   = "${var.user_data_script}"
   security_groups             = ["${concat(split(",", aws_security_group.security_group.id),var.security_groups)}"]
   iam_instance_profile        = "${var.instance_profile}"

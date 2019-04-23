@@ -46,7 +46,7 @@ module "ecs" {
 
   key_name = ""
   # instance_profile = "${aws_iam_instance_profile.ecs.id}"
-  map_public_ip = false
+  associate_public_ip_address = false
   # Starting capacity
   asg_desired_capacity = 1
   asg_max_size         = 1
