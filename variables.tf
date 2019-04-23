@@ -1,13 +1,15 @@
 variable "vpc_id" {}
-variable "ami" {}
 
 variable "security_groups" {
-  type = "list"
+  type    = "list"
+  default = []
 }
 
 variable "instance_profile" {
   default = ""
 }
+
+variable "name" {}
 
 variable "instance_type" {
   default = "t2.large"
@@ -17,10 +19,6 @@ variable "instance_type" {
 variable "user_data_script" {}
 
 variable "load_balancers" {}
-
-variable "zones" {
-  type = "list"
-}
 
 variable "subnets" {
   type = "list"
@@ -58,9 +56,11 @@ variable "map_public_ip" {
   default = false
 }
 
-## AutoScalling
+variable "key_name" {}
 
+## AutoScalling
 variable "asg_min_size" {}
+
 variable "asg_max_size" {}
 variable "asg_desired_capacity" {}
 variable "asg_min_size_up" {}
@@ -79,11 +79,15 @@ variable "schedule_recurrence_down" {
 }
 
 ## Tagging
+locals {
+  default_tags = {
+    environment = "${terraform.workspace}"
+  }
 
-variable "owner" {}
-variable "application" {}
-variable "name" {}
-variable "description" {}
-variable "email" {}
-variable "cost_code" {}
-variable "key_name" {}
+  tags = "${merge(local.default_tags,var.tags)}"
+}
+
+variable "tags" {
+  type    = "map"
+  default = {}
+}
