@@ -42,8 +42,21 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   termination_policies      = "${var.termination_policies}"
   enabled_metrics           = ["${var.enabled_metrics}"]
   vpc_zone_identifier       = ["${var.subnets}"]
-  tags                      = ["${data.null_data_source.asg-tags.*.outputs}"]
-  depends_on                = ["aws_launch_configuration.launch_config"]
+
+  tags = ["${
+    concat(
+      "${data.null_data_source.asg-tags.*.outputs}",
+      list(
+        map(
+          "key", "Name",
+          "value", "${terraform.env}_${var.name}",
+          "propagate_at_launch", true
+        )
+      )
+    )
+  }"]
+
+  depends_on = ["aws_launch_configuration.launch_config"]
 
   lifecycle {
     create_before_destroy = true

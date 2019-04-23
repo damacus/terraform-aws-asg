@@ -13,8 +13,7 @@ verifier:
   name: awspec
 
 suites:
-  - name: "default"
+  - name: default
     verifier:
-      name: "awspec"
-      patterns:
-      - "test/integration/default/test_bucket.rb"
+      name: awspec
+      patterns: ["test/integration/default/main.rb"]

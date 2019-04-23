@@ -1,6 +1,6 @@
 locals {
   tags {
-    cost_cost = "1234"
+    additional_test_tag = "1234"
   }
 
   user_data_script = <<EOF
