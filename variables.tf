@@ -56,7 +56,9 @@ variable "map_public_ip" {
   default = false
 }
 
-variable "key_name" {}
+variable "key_name" {
+  default = ""
+}
 
 ## AutoScalling
 variable "asg_min_size" {}
