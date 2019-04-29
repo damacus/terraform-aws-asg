@@ -36,7 +36,6 @@ module "ecs" {
   source = "../../"
   name   = "asg-test"
 
-  load_balancers   = ""
   user_data_script = "#!/bin/bash\necho ECS_CLUSTER=default >> /etc/ecs/ecs.config"
 
   subnets = "${module.vpc.private_subnets}"
@@ -44,7 +43,7 @@ module "ecs" {
 
   # security_groups = ["${aws_security_group.ecs_cluster.id}"]
 
-  key_name = ""
+  # key_name = ""
   # instance_profile = "${aws_iam_instance_profile.ecs.id}"
   associate_public_ip_address = false
   # Starting capacity
