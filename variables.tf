@@ -19,7 +19,7 @@ variable "name" {
 
 variable "instance_type" {
   description = "A EC2 instance type for the ASG"
-  default     = "t2.large"
+  default     = "t2.medium"
 }
 
 # ASG
@@ -72,6 +72,17 @@ variable "associate_public_ip_address" {
 variable "key_name" {
   description = "The key name that should be used for the instance"
   default     = ""
+}
+
+## Launch Configuration
+variable "volume_type" {
+  default     = "gp2"
+  description = "The type of volume. Can be standard, gp2, or io1."
+}
+
+variable "volume_size" {
+  default     = 30
+  description = "The size of the volume in gigabytes."
 }
 
 ## AutoScalling

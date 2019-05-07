@@ -17,6 +17,11 @@ resource "aws_launch_configuration" "launch_config" {
   iam_instance_profile        = "${var.instance_profile}"
   key_name                    = "${var.key_name}"
 
+  root_block_device {
+    volume_type = "${var.volume_type}"
+    volume_size = "${var.volume_size}"
+  }
+
   lifecycle {
     create_before_destroy = true
   }
