@@ -2,7 +2,7 @@ version: 2.1
 
 terraform: &terraform
   docker:
-    - image: hashicorp/terraform:0.11.13
+    - image: hashicorp/terraform:0.12.12
   working_directory: /tmp/workspace/terraform
 
 jobs:

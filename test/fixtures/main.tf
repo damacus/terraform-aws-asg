@@ -1,5 +1,5 @@
 locals {
-  tags {
+  tags = {
     additional_test_tag = "1234"
   }
 
@@ -38,8 +38,8 @@ module "ecs" {
 
   user_data_script = "#!/bin/bash\necho ECS_CLUSTER=default >> /etc/ecs/ecs.config"
 
-  subnets = "${module.vpc.private_subnets}"
-  vpc_id  = "${module.vpc.vpc_id}"
+  subnets = module.vpc.private_subnets
+  vpc_id  = module.vpc.vpc_id
 
   # security_groups = ["${aws_security_group.ecs_cluster.id}"]
 
@@ -62,7 +62,7 @@ module "ecs" {
   # schedule_recurrence_up   = "${var.schedule_recurrence_up}"
   # schedule_recurrence_down = "${var.schedule_recurrence_down}"
 
-  tags = "${local.tags}"
+  tags = local.tags
 }
 
 provider "aws" {
@@ -71,6 +71,6 @@ provider "aws" {
 
 module "vpc" {
   source  = "damacus/vpc/module"
-  version = "2.0.0"
-  tags    = "${local.tags}"
+  version = "3.0.0"
+  tags    = local.tags
 }

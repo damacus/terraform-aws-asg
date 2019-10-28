@@ -4,7 +4,7 @@ variable "vpc_id" {
 
 variable "security_groups" {
   description = "A list of additional securiyy groups to attach to the ASG"
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
@@ -29,12 +29,12 @@ variable "user_data_script" {
 
 variable "subnets" {
   description = "A list of subnets for the autoscaling_group vpc_zone_identifier"
-  type        = "list"
+  type        = list(string)
 }
 
 variable "enabled_metrics" {
   description = "A list of metrics to collect. By default all are collected"
-  type        = "list"
+  type        = list(string)
 
   default = [
     "GroupTerminatingInstances",
@@ -50,7 +50,7 @@ variable "enabled_metrics" {
 
 variable "termination_policies" {
   description = "A list of policies to decide how the instances in the auto scale group should be terminated"
-  type        = "list"
+  type        = list(string)
   default     = ["OldestLaunchConfiguration", "ClosestToNextInstanceHour"]
 }
 
@@ -135,13 +135,14 @@ variable "schedule_recurrence_down" {
 ## Tagging
 locals {
   default_tags = {
-    environment = "${terraform.workspace}"
+    environment = terraform.workspace
   }
 
-  tags = "${merge(local.default_tags,var.tags)}"
+  tags = merge(local.default_tags, var.tags)
 }
 
 variable "tags" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
+

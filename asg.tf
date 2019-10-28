@@ -9,17 +9,20 @@ data "aws_ami" "ecs-optimized" {
 }
 
 resource "aws_launch_configuration" "launch_config" {
-  image_id                    = "${data.aws_ami.ecs-optimized.id}"
-  instance_type               = "${var.instance_type}"
-  associate_public_ip_address = "${var.associate_public_ip_address}"
-  user_data                   = "${var.user_data_script}"
-  security_groups             = ["${concat(split(",", aws_security_group.security_group.id),var.security_groups)}"]
-  iam_instance_profile        = "${var.instance_profile}"
-  key_name                    = "${var.key_name}"
+  image_id                    = data.aws_ami.ecs-optimized.id
+  instance_type               = var.instance_type
+  associate_public_ip_address = var.associate_public_ip_address
+  user_data                   = var.user_data_script
+  security_groups = concat(
+    split(",", aws_security_group.security_group.id),
+    var.security_groups,
+  )
+  iam_instance_profile = var.instance_profile
+  key_name             = var.key_name
 
   root_block_device {
-    volume_type = "${var.volume_type}"
-    volume_size = "${var.volume_size}"
+    volume_type = var.volume_type
+    volume_size = var.volume_size
   }
 
   lifecycle {
@@ -30,50 +33,40 @@ resource "aws_launch_configuration" "launch_config" {
 resource "aws_autoscaling_group" "autoscaling_group" {
   # Recreate the ASG by creating the name using random_pet
   # Random pet changes value based on the launch configuration
-  name_prefix = "${
-    join("-",
-    list(var.name),
-    concat(random_pet.asg_name.*.id, list(""))
-    )
-  }"
+  name_prefix = join("-", [var.name], concat(random_pet.asg_name.*.id, [""]))
 
-  max_size                  = "${var.asg_max_size}"
-  min_size                  = "${var.asg_min_size}"
-  desired_capacity          = "${var.asg_desired_capacity}"
-  health_check_grace_period = "${var.health_check_grace_period}"
-  health_check_type         = "${var.health_check_type}"
+  max_size                  = var.asg_max_size
+  min_size                  = var.asg_min_size
+  desired_capacity          = var.asg_desired_capacity
+  health_check_grace_period = var.health_check_grace_period
+  health_check_type         = var.health_check_type
   force_delete              = true
-  launch_configuration      = "${aws_launch_configuration.launch_config.name}"
-  termination_policies      = "${var.termination_policies}"
-  enabled_metrics           = ["${var.enabled_metrics}"]
-  vpc_zone_identifier       = ["${var.subnets}"]
-
-  tags = ["${
-    concat(
-      "${data.null_data_source.asg-tags.*.outputs}",
-      list(
-        map(
-          "key", "Name",
-          "value", "${terraform.env}_${var.name}",
-          "propagate_at_launch", true
-        )
-      )
-    )
-  }"]
-
-  depends_on = ["aws_launch_configuration.launch_config"]
+  launch_configuration      = aws_launch_configuration.launch_config.name
+  termination_policies      = var.termination_policies
+  enabled_metrics           = var.enabled_metrics
+  vpc_zone_identifier       = var.subnets
+  tags                      = flatten([data.null_data_source.asg-tags.*.outputs, local.asg_name_tag])
+  depends_on                = [aws_launch_configuration.launch_config]
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
+locals {
+  asg_name_tag = {
+    "key"                 = "Name"
+    "value"               = var.name
+    "propagate_at_launch" = true
+  }
+}
+
 data "null_data_source" "asg-tags" {
-  count = "${length(keys(local.tags))}"
+  count = length(keys(local.tags))
 
   inputs = {
-    key                 = "${element(keys(local.tags), count.index)}"
-    value               = "${element(values(local.tags), count.index)}"
+    key                 = element(keys(local.tags), count.index)
+    value               = element(values(local.tags), count.index)
     propagate_at_launch = "true"
   }
 }
@@ -85,6 +78,6 @@ resource "random_pet" "asg_name" {
 
   keepers = {
     # Generate a new pet name each time we switch launch configuration
-    lc_name = "${aws_launch_configuration.launch_config.name}"
+    lc_name = aws_launch_configuration.launch_config.name
   }
 }
